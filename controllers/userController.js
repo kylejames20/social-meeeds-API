@@ -23,7 +23,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     updatedUser(req, res) {
-        User.findOneUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $set: req.body },
             { runValidators: true, new: true }
@@ -38,7 +38,7 @@ module.exports = {
             });
     },
     deletedUser(req, res) {
-        User.findOneRemove({ _id: req.params.userId })
+        User.findOneAndRemove({ _id: req.params.userId })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: "No thought(s) with that ID. Please try again!" })
@@ -50,7 +50,7 @@ module.exports = {
             )
     },
     addNewFriendRequest(req, res) {
-        User.findOneUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $addToSet: { friends: req.params.friendId } },
             { runValidators: true, new: true }
@@ -66,7 +66,7 @@ module.exports = {
 
     },
     removeCurrentFriend(req, res) {
-        User.findOneUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: req.params.friendId } },
             { runValidators: true, new: true }
